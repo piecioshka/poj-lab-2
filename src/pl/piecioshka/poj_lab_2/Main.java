@@ -13,15 +13,19 @@ public class Main {
         htmlBuilder.buildHTML();
     }
 
-    public static void director(Builder builder) {
-        builder.addTitle("Księga czarów")
+    private static void director(Builder builder) {
+        builder
+                .addTitle("Księga czarów")
                 .addAuthor("Piotr Kowalski")
+
                 .addChapter("Biała magia", 1)
-                .addParagraph("Lorem ipsum...1")
-                .addParagraph("Lorem ipsum...2")
+                .addParagraph("Paragraf...1")
+                .addParagraph("Paragraf...2")
+
                 .addChapter("Czarna magia", 1)
-                .addParagraph("Lorem ipsum...3")
-                .addParagraph("Lorem ipsum...4")
+                .addParagraph("Paragraf...3")
+                .addParagraph("Paragraf...4")
+
                 .addBulletListItem("Piekło")
                 .addBulletListItem("Niebo")
         ;

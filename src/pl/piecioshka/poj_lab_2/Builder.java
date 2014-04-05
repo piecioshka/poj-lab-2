@@ -3,10 +3,9 @@ package pl.piecioshka.poj_lab_2;
 public interface Builder {
     /**
      * Dodajemy tytuł do dokumentu.
-     * Jak wiadomo każdy dokument ma tylko jeden tytuł, 
-     * tak więc uruchomienie tej metody:
-     *  - więcej niż jeden raz zakończy się wyjątkiem Exception
-     *  - nie uruchomienie jej na początku budowania zakończy się wyjątkiem Exception
+     * Warunki:
+     *  - metoda musi być uruchomiona tylko raz, wpp. ustawiony zostanie tytuł w przekazany w pierwszej metodzie
+     *  - metoda musi uruchomić się na początku procesu budowania dokumentu, wpp. dokument zostanie pusty
      * @param title Nazwa tytułu
      * @return Builder
      */
@@ -14,8 +13,8 @@ public interface Builder {
 
     /**
      * Ustawiamy tytuł dokumentu.
-     * Metoda musi zostać uruchomiona tylko jeden raz zaraz po definicji tytułu 
-     * dokumentu, w przeciwnym przypadku rzuci wyjątkiem Exception
+     * Warunki:
+     *  - metoda musi uruchomić się po ustawianiu tytułu w procesie budowania dokumentu, wpp. dokument będzie pusty
      * @param author Nazwa autora, np. Imię i nazwisko
      * @return Builder
      */
@@ -23,14 +22,19 @@ public interface Builder {
 
     /**
      * Dodajemy rozdział.
+     * Warunki:
+     *  - metoda zadziała gdy dokument będzie miał ustawionego autora i tytuł, wpp. nic się nie stanie
      * @param chapter Nazwa rozdziału.
-     * @param level Poziom zagłębienia rozdziału
+     * @param level Poziom zagłębienia rozdziału. Możliwe od 1 do 6 poziomów zagłębień.
+     *              Nie można dodać podrozdziału gdy jest on o więcej niż 1 poziom pod poprzednim.
      * @return Builder
      */
     public Builder addChapter(String chapter, Integer level);
 
     /**
      * Dodajemy paragraf.
+     * Warunki:
+     *  - metoda zadziała gdy dokument będzie miał ustawionego autora i tytuł, wpp. nic się nie stanie
      * @param body Treść paragrafu.
      * @return Builder
      */
@@ -38,6 +42,8 @@ public interface Builder {
 
     /**
      * Dodajemy element listy numerowanej.
+     * Warunki:
+     *  - metoda zadziała gdy dokument będzie miał ustawionego autora i tytuł, wpp. nic się nie stanie
      * @param name Treść elementu
      * @return Builder
      */

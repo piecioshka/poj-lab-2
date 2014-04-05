@@ -15,33 +15,66 @@ public class HTMLBuilder implements Builder {
         }
     }
 
+    /**
+     * Flaga mówiąca czy autor został ustawiony
+     */
+    private boolean isSetAuthor = false;
+
+    /**
+     * Flaga mówiąca czy tytuł został ustawiony
+     */
+    private boolean isSetTitle = false;
+
+    /**
+     * Flaga mówiąca czy dowolny element dokumentu (rozdział, paragraf, element listy) został ustawiony.
+     */
+    private boolean isSetItem = false;
+
+
     @Override
     public Builder addTitle(String title) {
-        this.list.add("<h1>" + title + "</h1>");
+        if (!this.isSetTitle && !this.isSetAuthor && !this.isSetItem) {
+            this.list.add("<h1>" + title + "</h1>");
+            this.isSetTitle = true;
+        }
         return this;
     }
 
     @Override
     public Builder addAuthor(String author) {
-        this.list.add("<h2>" + author + "</h2>");
+        if (this.isSetTitle && !this.isSetAuthor && !this.isSetItem) {
+            this.list.add("<h2>" + author + "</h2>");
+            this.isSetAuthor = true;
+        }
         return this;
     }
 
     @Override
     public Builder addChapter(String chapter, Integer level) {
-        this.list.add("<h" + level + ">" + chapter + "</h" + level + ">");
+        if (this.isSetTitle && this.isSetAuthor) {
+            if (level > 1 && level < 6) {
+                this.list.add("<h" + level + ">" + chapter + "</h" + level + ">");
+                this.isSetItem = true;
+            }
+        }
         return this;
     }
 
     @Override
     public Builder addParagraph(String body) {
-        this.list.add("<p>" + body + "</p>");
+        if (this.isSetTitle && this.isSetAuthor) {
+            this.list.add("<p>" + body + "</p>");
+            this.isSetItem = true;
+        }
         return this;
     }
 
     @Override
     public Builder addBulletListItem(String name) {
-        this.list.add("<li>" + name + "</li>");
+        if (this.isSetTitle && this.isSetAuthor) {
+            this.list.add("<li>" + name + "</li>");
+            this.isSetItem = true;
+        }
         return this;
     }
 }

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class TextBuilder implements Builder {
     private final ArrayList<String> list;
-    
+
     public TextBuilder() {
         this.list = new ArrayList<String>();
     }
@@ -15,35 +15,66 @@ public class TextBuilder implements Builder {
         }
     }
 
+    /**
+     * Flaga mówiąca czy autor został ustawiony
+     */
+    private boolean isSetAuthor = false;
+
+    /**
+     * Flaga mówiąca czy tytuł został ustawiony
+     */
+    private boolean isSetTitle = false;
+
+    /**
+     * Flaga mówiąca czy dowolny element dokumentu (rozdział, paragraf, element listy) został ustawiony.
+     */
+    private boolean isSetItem = false;
+
+
     @Override
     public Builder addTitle(String title) {
-        this.list.add(title);
+        if (!this.isSetTitle && !this.isSetAuthor && !this.isSetItem) {
+            this.list.add(title);
+            this.isSetTitle = true;
+        }
         return this;
     }
 
     @Override
     public Builder addAuthor(String author) {
-        this.list.add(author + "\n");
+        if (this.isSetTitle && !this.isSetAuthor && !this.isSetItem) {
+            this.list.add(author + "\n");
+            this.isSetAuthor = true;
+        }
         return this;
     }
 
     @Override
     public Builder addChapter(String chapter, Integer level) {
-        if (level > 1 && level < 6) {
-            this.list.add("\n" + chapter + "\n");
+        if (this.isSetTitle && this.isSetAuthor) {
+            if (level > 1 && level < 6) {
+                this.list.add("\n" + chapter + "\n");
+                this.isSetItem = true;
+            }
         }
         return this;
     }
 
     @Override
     public Builder addParagraph(String body) {
-        this.list.add(body);
+        if (this.isSetTitle && this.isSetAuthor) {
+            this.list.add(body);
+            this.isSetItem = true;
+        }
         return this;
     }
 
     @Override
     public Builder addBulletListItem(String name) {
-        this.list.add(" - " + name);
+        if (this.isSetTitle && this.isSetAuthor) {
+            this.list.add(" - " + name);
+            this.isSetItem = true;
+        }
         return this;
     }
 }
