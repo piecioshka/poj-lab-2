@@ -2,7 +2,7 @@
 
 ## Zadanie
 
--	Z użyciem wzorca projektowego "Builder" należy stworzyć interfejsy i klasy
+-	Z użyciem wzorca projektowego *Builder* należy stworzyć interfejsy i klasy
     umożliwiające klientom tych interfejsów i klas budowanie dokumentów
     tekstowych oraz HTML w sposób niezależny od konkretnej formy wizualnej
     budowanego dokumentu.
