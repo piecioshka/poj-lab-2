@@ -1,19 +1,16 @@
-package app;
+package pl.piecioshka.poj_lab_2;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class HTMLBuilder implements Builder {
-    private final ArrayList list;
-    
+    private final ArrayList<String> list;
+
     public HTMLBuilder() {
-        this.list = new ArrayList();
+        this.list = new ArrayList<String>();
     }
-    
+
     public void buildHTML() {
-        Iterator<Object> it = this.list.iterator();
-        while(it.hasNext()) {
-            Object item = it.next();
+        for (Object item : this.list) {
             System.out.println((String) item);
         }
     }
@@ -31,14 +28,8 @@ public class HTMLBuilder implements Builder {
     }
 
     @Override
-    public Builder addChapter(String chapter) {
-        this.list.add("<p>" + chapter + "</p>");
-        return this;
-    }
-
-    @Override
-    public Builder addSubChapter(String chapter) {
-        this.list.add(chapter);
+    public Builder addChapter(String chapter, Integer level) {
+        this.list.add("<h" + level + ">" + chapter + "</h" + level + ">");
         return this;
     }
 
@@ -49,7 +40,7 @@ public class HTMLBuilder implements Builder {
     }
 
     @Override
-    public Builder addBulletedListItem(String name) {
+    public Builder addBulletListItem(String name) {
         this.list.add("<li>" + name + "</li>");
         return this;
     }
