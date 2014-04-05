@@ -52,7 +52,7 @@ public class HTMLBuilder implements Builder {
     @Override
     public Builder addChapter(String chapter, Integer level) {
         if (this.isSetTitle && this.isSetAuthor) {
-            if (level > 1 && level < 6) {
+            if (level >= 1 && level <= 6) {
                 this.list.add("<h" + level + ">" + chapter + "</h" + level + ">");
                 this.isSetItem = true;
             }

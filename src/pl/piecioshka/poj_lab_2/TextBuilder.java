@@ -34,7 +34,7 @@ public class TextBuilder implements Builder {
     @Override
     public Builder addTitle(String title) {
         if (!this.isSetTitle && !this.isSetAuthor && !this.isSetItem) {
-            this.list.add(title);
+            this.list.add("Tytuł: " + title);
             this.isSetTitle = true;
         }
         return this;
@@ -43,7 +43,7 @@ public class TextBuilder implements Builder {
     @Override
     public Builder addAuthor(String author) {
         if (this.isSetTitle && !this.isSetAuthor && !this.isSetItem) {
-            this.list.add(author + "\n");
+            this.list.add("Autor: " + author + "\n");
             this.isSetAuthor = true;
         }
         return this;
@@ -52,8 +52,8 @@ public class TextBuilder implements Builder {
     @Override
     public Builder addChapter(String chapter, Integer level) {
         if (this.isSetTitle && this.isSetAuthor) {
-            if (level > 1 && level < 6) {
-                this.list.add("\n" + chapter + "\n");
+            if (level >= 1 && level <= 6) {
+                this.list.add("\nRozdział: " + chapter + "\n");
                 this.isSetItem = true;
             }
         }
@@ -63,7 +63,7 @@ public class TextBuilder implements Builder {
     @Override
     public Builder addParagraph(String body) {
         if (this.isSetTitle && this.isSetAuthor) {
-            this.list.add(body);
+            this.list.add("Paragraf: " + body);
             this.isSetItem = true;
         }
         return this;
