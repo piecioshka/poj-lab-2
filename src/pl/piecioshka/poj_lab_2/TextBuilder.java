@@ -1,6 +1,7 @@
 package pl.piecioshka.poj_lab_2;
 
 import java.util.ArrayList;
+import pl.piecioshka.utils.StringUtils;
 
 public class TextBuilder implements Builder {
     private final ArrayList<String> list;
@@ -30,6 +31,11 @@ public class TextBuilder implements Builder {
      */
     private boolean isSetItem = false;
 
+    /**
+     * Aktualny poziom zagnieżdżenia nagłówka.
+     */
+    private Integer headerLevel = 0;
+
 
     @Override
     public Builder addTitle(String title) {
@@ -53,8 +59,11 @@ public class TextBuilder implements Builder {
     public Builder addChapter(String chapter, Integer level) {
         if (this.isSetTitle && this.isSetAuthor) {
             if (level >= 1 && level <= 6) {
-                this.list.add("\nRozdział: " + chapter + "\n");
-                this.isSetItem = true;
+                if (level > headerLevel && level == headerLevel + 1 || level < headerLevel) {
+                    this.list.add("\n" + StringUtils.repeat(" ", level - 1) + "Rozdział: " + chapter + "\n");
+                    this.isSetItem = true;
+                    this.headerLevel = level;
+                }
             }
         }
         return this;

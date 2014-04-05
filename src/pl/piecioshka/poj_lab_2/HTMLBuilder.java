@@ -30,6 +30,11 @@ public class HTMLBuilder implements Builder {
      */
     private boolean isSetItem = false;
 
+    /**
+     * Aktualny poziom zagnieżdżenia nagłówka.
+     */
+    private Integer headerLevel = 0;
+
 
     @Override
     public Builder addTitle(String title) {
@@ -53,8 +58,11 @@ public class HTMLBuilder implements Builder {
     public Builder addChapter(String chapter, Integer level) {
         if (this.isSetTitle && this.isSetAuthor) {
             if (level >= 1 && level <= 6) {
-                this.list.add("<h" + level + ">" + chapter + "</h" + level + ">");
-                this.isSetItem = true;
+                if (level > headerLevel && level == headerLevel + 1 || level < headerLevel) {
+                    this.list.add("<h" + level + ">" + chapter + "</h" + level + ">");
+                    this.isSetItem = true;
+                    this.headerLevel = level;
+                }
             }
         }
         return this;
