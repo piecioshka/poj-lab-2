@@ -1,21 +1,45 @@
 package pl.piecioshka.poj_lab_2;
 
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+
 public class Main {
-    public static void main(String[] args) {
-        Main.runTextBuilder();
-        // Main.runHTMLBuilder();
+    public static void main(String[] args) throws FileNotFoundException {
+        runTextBuilder();
+        runHTMLBuilder();
     }
 
-    private static void runTextBuilder() {
+    private static void runTextBuilder() throws FileNotFoundException {
         TextBuilder textBuilder = new TextBuilder();
-        Main.director(textBuilder);
-        textBuilder.buildText();
+        director(textBuilder);
+        saveToFile(textBuilder.buildText(), "data/document.txt");
     }
 
-    private static void runHTMLBuilder() {
+    private static void runHTMLBuilder() throws FileNotFoundException {
         HTMLBuilder htmlBuilder = new HTMLBuilder();
-        Main.director(htmlBuilder);
-        htmlBuilder.buildHTML();
+        director(htmlBuilder);
+        saveToFile(htmlBuilder.buildHTML(), "data/document.html");
+    }
+
+    private static void saveToFile(String text, String filename) throws FileNotFoundException {
+        BufferedWriter writer = null;
+
+        try {
+            writer = new BufferedWriter(new FileWriter(filename));
+            writer.write(text);
+        } catch (IOException e) {
+            System.out.println("ERROR: " + e.toString());
+        } finally {
+            try {
+                if (writer != null) {
+                    writer.close();
+                }
+            } catch (IOException e) {
+                System.out.println("ERROR: " + e.toString());
+            }
+        }
     }
 
     private static void director(Builder builder) {
@@ -32,6 +56,7 @@ public class Main {
 
                 .addChapter("Czarna magia", 3)
                 .addParagraph("Paragraf...4")
+                .addBulletListItem("Komputer")
 
                 .addChapter("Czarna magia", 2)
                 .addParagraph("Paragraf...5")
@@ -50,6 +75,7 @@ public class Main {
 
                 .addBulletListItem("Piekło")
                 .addBulletListItem("Niebo")
+                .finish()
         ;
     }
 }

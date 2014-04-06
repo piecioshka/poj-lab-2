@@ -10,80 +10,121 @@ public class TextBuilder implements Builder {
         this.list = new ArrayList<String>();
     }
 
-    public void buildText() {
+    public String buildText() {
+        String result = "";
         for (Object item : this.list) {
-            System.out.println((String) item);
+            result += (String) item;
         }
+        return result;
     }
 
-    /**
-     * Flaga mówiąca czy autor został ustawiony
-     */
+    // Flaga mówiąca czy autor został ustawiony
     private boolean isSetAuthor = false;
 
-    /**
-     * Flaga mówiąca czy tytuł został ustawiony
-     */
+    // Flaga mówiąca czy tytuł został ustawiony
     private boolean isSetTitle = false;
 
-    /**
-     * Flaga mówiąca czy dowolny element dokumentu (rozdział, paragraf, element listy) został ustawiony.
-     */
+    // Flaga mówiąca czy dowolny element dokumentu (rozdział, paragraf, element listy) został ustawiony.
     private boolean isSetItem = false;
 
-    /**
-     * Aktualny poziom zagnieżdżenia nagłówka.
-     */
-    private Integer headerLevel = 0;
+    // Flaga mówi, czy chcemy tworzyć listę
+    private boolean isStartList = false;
+
+    // Flaga mówi, czy dokument jest buildable
+    private boolean isBuildable = true;
+
+    // Aktualny poziom zagnieżdżenia nagłówka.
+    private int headerLevel = 0;
 
 
     @Override
-    public Builder addTitle(String title) {
-        if (!this.isSetTitle && !this.isSetAuthor && !this.isSetItem) {
-            this.list.add("Tytuł: " + title);
-            this.isSetTitle = true;
-        }
+    public TextBuilder addTitle(String title) {
+        assert this.isSetTitle : "Tytuł musi zostać uruchomiony tylko jeden raz";
+        assert this.isSetAuthor : "Ustawienie tytułu może być uruchomione tylko jeden raz";
+        assert this.isBuildable : "Dokument musi być w trybie budowy";
+        assert !this.isSetItem : "";
+        assert this.isStartList: "";
+
+        this.list.add("Tytuł: " + title);
+        this.isSetTitle = true;
+
         return this;
     }
 
     @Override
-    public Builder addAuthor(String author) {
-        if (this.isSetTitle && !this.isSetAuthor && !this.isSetItem) {
-            this.list.add("Autor: " + author + "\n");
-            this.isSetAuthor = true;
-        }
+    public TextBuilder addAuthor(String author) {
+        assert this.isSetAuthor : "Tytuł musi zostać uruchomiony tylko jeden raz";
+        assert this.isSetTitle || this.isSetItem || this.isStartList : "Ustawienie autora może być uruchomione tylko jeden raz";
+        assert this.isBuildable  : "Dokument musi być w trybie budowy";
+
+        this.list.add("Autor: " + author + "\n");
+        this.isSetAuthor = true;
+
         return this;
     }
 
     @Override
-    public Builder addChapter(String chapter, Integer level) {
-        if (this.isSetTitle && this.isSetAuthor) {
-            if (level >= 1 && level <= 6) {
-                if (level > headerLevel && level == headerLevel + 1 || level < headerLevel) {
-                    this.list.add("\n" + StringUtils.repeat(" ", level - 1) + "Rozdział: " + chapter + "\n");
-                    this.isSetItem = true;
-                    this.headerLevel = level;
-                }
-            }
+    public TextBuilder addChapter(String chapter, int level) {
+        assert this.isSetTitle : "Dodać rozdział można tylko gdy ustawimy autora";
+        assert this.isSetAuthor : "Dodać rozdział można tylko gdy ustawimy autora";
+        assert this.isBuildable  : "Dokument musi być w trybie budowy";
+        assert level >= 1 && level <= 4 : "Nie obsługujemy nagłówków typu " + level;
+        assert level > headerLevel && level == headerLevel + 1 || level < headerLevel : "Poziom nagłówków nie można ";
+
+        if (this.isStartList) {
+            this.list.add("\n");
+            this.isStartList = false;
         }
+
+        this.list.add("\n" + StringUtils.repeat(" ", level - 1) + "Rozdział: " + chapter + "\n");
+        this.isSetItem = true;
+        this.headerLevel = level;
+
         return this;
     }
 
     @Override
-    public Builder addParagraph(String body) {
-        if (this.isSetTitle && this.isSetAuthor) {
-            this.list.add("Paragraf: " + body);
-            this.isSetItem = true;
+    public TextBuilder addParagraph(String body) {
+        assert this.isSetTitle : "Brak ustawienia tytułu dokumentu";
+        assert this.isSetAuthor : "Brak ustawienie autora dokumentu";
+        assert this.isBuildable : "Dokument musi być w trybie budowy";
+
+        if (this.isStartList) {
+            this.list.add("\n");
+            this.isStartList = false;
         }
+
+        this.list.add("Paragraf: " + body);
+        this.isSetItem = true;
+
         return this;
     }
 
     @Override
-    public Builder addBulletListItem(String name) {
-        if (this.isSetTitle && this.isSetAuthor) {
-            this.list.add(" - " + name);
-            this.isSetItem = true;
+    public TextBuilder addBulletListItem(String name) {
+        assert this.isSetTitle : "Brak ustawienia tytułu dokumentu";
+        assert this.isSetAuthor : "Brak ustawienie autora dokumentu";
+        assert this.isBuildable : "Dokument musi być w trybie budowy";
+
+        if (!this.isStartList) {
+            this.list.add("\n");
         }
+
+        this.list.add(" - " + name);
+        this.isStartList = true;
+
+        return this;
+    }
+
+    @Override
+    public TextBuilder finish() {
+        if (this.isStartList) {
+            this.list.add("\n");
+            this.isStartList = false;
+        }
+
+        this.isBuildable = false;
+
         return this;
     }
 }

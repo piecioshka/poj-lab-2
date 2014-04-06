@@ -31,3 +31,22 @@
 - Konfiguracja: JDK
 - Stworzenie: Application
 - Start: Ctrl+R
+
+## Wyjątki w Java
+
+* Error
+  Wyjątki rzucane przez wirtualną maszynę Java
+  Nigdy nie łapiemy tych wyjątków
+
+* Exceptions
+
+    - oznaczone: Rozszerzają klasę Exception.
+      Wyjątki rzucane przez biblioteki. Musimy obsłużyć.
+      Wyjątki nie są rzucane przez programistę, pojawiają się nie z powodu błędu programisty.
+
+    - nieoznaczone: RuntimeException
+      Wyjątki rzucane przez programistów. Nie obsługujemy ich.
+
+### Dod. zadanie
+
+*Wzorzec obiektowy obserwator.*

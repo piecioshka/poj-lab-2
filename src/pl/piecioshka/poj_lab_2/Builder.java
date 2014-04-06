@@ -32,7 +32,7 @@ public interface Builder {
      *                Nie można dodać podrozdziału gdy jest on o więcej niż 1 poziom pod poprzednim.
      * @return Builder
      */
-    public Builder addChapter(String chapter, Integer level);
+    public Builder addChapter(String chapter, int level);
 
     /**
      * Dodajemy paragraf.
@@ -53,4 +53,13 @@ public interface Builder {
      * @return Builder
      */
     public Builder addBulletListItem(String name);
+
+    /**
+     * Finalizacja budowania dokumentu:
+     * Warunki:
+     * - metoda musi być uruchomiona jako ostatnia, wpp. dalsze budowanie zostanie zignorowane
+     *
+     * @return Builder
+     */
+    public Builder finish();
 }
