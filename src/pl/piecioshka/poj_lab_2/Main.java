@@ -23,7 +23,7 @@ public class Main {
         saveToFile(htmlBuilder.buildHTML(), "data/document.html");
     }
 
-    private static void saveToFile(String text, String filename) throws FileNotFoundException {
+    private static void saveToFile(String text, String filename) {
         BufferedWriter writer = null;
 
         try {

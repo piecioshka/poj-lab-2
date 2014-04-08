@@ -1,7 +1,8 @@
 package pl.piecioshka.poj_lab_2;
 
-import java.util.ArrayList;
 import pl.piecioshka.utils.StringUtils;
+
+import java.util.ArrayList;
 
 public class TextBuilder implements Builder {
     private final ArrayList<String> list;
@@ -117,14 +118,12 @@ public class TextBuilder implements Builder {
     }
 
     @Override
-    public TextBuilder finish() {
+    public void finish() {
         if (this.isStartList) {
             this.list.add("\n");
             this.isStartList = false;
         }
 
         this.isBuildable = false;
-
-        return this;
     }
 }

@@ -58,8 +58,6 @@ public interface Builder {
      * Finalizacja budowania dokumentu:
      * Warunki:
      * - metoda musi być uruchomiona jako ostatnia, wpp. dalsze budowanie zostanie zignorowane
-     *
-     * @return Builder
      */
-    public Builder finish();
+    public void finish();
 }

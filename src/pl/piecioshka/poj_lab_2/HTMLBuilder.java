@@ -1,7 +1,8 @@
 package pl.piecioshka.poj_lab_2;
 
-import java.util.ArrayList;
 import pl.piecioshka.utils.StringUtils;
+
+import java.util.ArrayList;
 
 public class HTMLBuilder implements Builder {
     private final ArrayList<String> list;
@@ -99,7 +100,7 @@ public class HTMLBuilder implements Builder {
     }
 
     @Override
-    public HTMLBuilder finish() {
+    public void finish() {
         if (this.isStartList) {
             this.list.add("</ul>");
             this.isStartList = false;
@@ -107,6 +108,5 @@ public class HTMLBuilder implements Builder {
         this.isBuildable = false;
 
         this.list.add(0, "<meta charset=\"utf-8\">");
-        return this;
     }
 }
