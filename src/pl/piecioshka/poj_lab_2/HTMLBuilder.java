@@ -41,7 +41,7 @@ public class HTMLBuilder implements Builder {
     @Override
     public HTMLBuilder addTitle(String title) {
         if (!this.isSetTitle && !this.isSetAuthor && !this.isSetItem && !this.isStartList && this.isBuildable) {
-            this.list.add("<h1>" + title + "</h1>");
+            this.list.add("\t\t<h1>" + title + "</h1>\n");
             this.isSetTitle = true;
         }
         return this;
@@ -50,7 +50,7 @@ public class HTMLBuilder implements Builder {
     @Override
     public HTMLBuilder addAuthor(String author) {
         if (this.isSetTitle && !this.isSetAuthor && !this.isSetItem && !this.isStartList && this.isBuildable) {
-            this.list.add("<h2>" + author + "</h2>\n");
+            this.list.add("\t\t<h2>" + author + "</h2>\n");
             this.isSetAuthor = true;
         }
         return this;
@@ -62,10 +62,10 @@ public class HTMLBuilder implements Builder {
             if (level >= 1 && level <= 4) {
                 if (level > headerLevel && level == headerLevel + 1 || level < headerLevel) {
                     if (this.isStartList) {
-                        this.list.add("</ul>");
+                        this.list.add("\t\t</ul>\n");
                         this.isStartList = false;
                     }
-                    this.list.add("\n<h" + level + ">" + chapter + "</h" + level + ">");
+                    this.list.add("\n\t\t<h" + level + ">" + chapter + "</h" + level + ">\n");
                     this.isSetItem = true;
                     this.headerLevel = level;
                 }
@@ -78,10 +78,10 @@ public class HTMLBuilder implements Builder {
     public HTMLBuilder addParagraph(String body) {
         if (this.isSetTitle && this.isSetAuthor && this.isBuildable) {
             if (this.isStartList) {
-                this.list.add("</ul>");
+                this.list.add("\t\t</ul>\n");
                 this.isStartList = false;
             }
-            this.list.add("<p>" + body + "</p>");
+            this.list.add("\t\t<p>" + body + "</p>\n");
             this.isSetItem = true;
         }
         return this;
@@ -91,9 +91,9 @@ public class HTMLBuilder implements Builder {
     public HTMLBuilder addBulletListItem(String name) {
         if (this.isSetTitle && this.isSetAuthor && this.isBuildable) {
             if (!this.isStartList) {
-                this.list.add("<ul>");
+                this.list.add("\t\t<ul>\n");
             }
-            this.list.add(StringUtils.repeat(" ", 4) + "<li>" + name + "</li>");
+            this.list.add("\t\t\t<li>" + name + "</li>\n");
             this.isStartList = true;
         }
         return this;
@@ -102,11 +102,20 @@ public class HTMLBuilder implements Builder {
     @Override
     public void finish() {
         if (this.isStartList) {
-            this.list.add("</ul>");
+            this.list.add("\t\t</ul>\n");
             this.isStartList = false;
         }
         this.isBuildable = false;
 
-        this.list.add(0, "<meta charset=\"utf-8\">");
+        this.list.add(0, "<!DOCTYPE html>\n" +
+                "<html>\n" +
+                "<head>\n" +
+                "\t<meta charset=\"utf-8\">\n" +
+                "\t<title>Wzorzec projektowy: Builder</title>\n" +
+                "</head>\n" +
+                "<body>\n\n" +
+                "\t<article>\n");
+
+        this.list.add("\t</article>\n\n</body>\n</html>\n");
     }
 }

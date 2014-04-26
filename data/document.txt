@@ -1,21 +1,30 @@
 Tytuł: Księga czarówAutor: Piotr Kowalski
 
 Rozdział: Biała magia
-Paragraf: Paragraf...1Paragraf: Paragraf...2
+Paragraf: Paragraf...1
+Paragraf: Paragraf...2
+
  Rozdział: Czarna magia
 Paragraf: Paragraf...3
+
   Rozdział: Czarna magia
 Paragraf: Paragraf...4
+
  - Komputer
 
  Rozdział: Czarna magia
 Paragraf: Paragraf...5
+
   Rozdział: Czarna magia
 Paragraf: Paragraf...6
+
    Rozdział: Czarna magia
-Paragraf: Paragraf...7Paragraf: Paragraf...8
+Paragraf: Paragraf...7
+Paragraf: Paragraf...8
+
     Rozdział: Czarna magia
 
      Rozdział: Czarna magia
 Paragraf: Paragraf...9
+
  - Piekło - Niebo

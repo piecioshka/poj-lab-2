@@ -95,7 +95,7 @@ public class TextBuilder implements Builder {
             this.isStartList = false;
         }
 
-        this.list.add("Paragraf: " + body);
+        this.list.add("Paragraf: " + body + "\n");
         this.isSetItem = true;
 
         return this;
