@@ -1,7 +1,5 @@
 package pl.piecioshka.poj_lab_2;
 
-import pl.piecioshka.utils.StringUtils;
-
 import java.util.ArrayList;
 
 public class HTMLBuilder implements Builder {
